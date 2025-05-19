@@ -32,10 +32,119 @@ El proyecto sigue una arquitectura en capas:
 
 ## Endpoints Principales
 
-### Autenticación
+### Endpoints de Autenticación (`/api/auth`)
 
-- Registro de usuario nuevo
-- Login de usuario existente
+#### Registro de Usuario
+
+- **URL**: `/api/auth/register`
+- **Método**: POST
+- **Descripción**: Registra un nuevo usuario en el sistema
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "email": "usuario@ejemplo.com",
+    "password": "contraseña",
+    "nombre": "Nombre Usuario",
+    "apellido": "Apellido Usuario"
+  }
+  ```
+- **Respuesta**: Token JWT de autenticación
+- **Autenticación**: No requiere token
+
+#### Inicio de Sesión
+
+- **URL**: `/api/auth/login`
+- **Método**: POST
+- **Descripción**: Autentica a un usuario y genera un token JWT
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "email": "usuario@ejemplo.com",
+    "password": "contraseña"
+  }
+  ```
+- **Respuesta**: Token JWT de autenticación
+- **Autenticación**: No requiere token
+
+### Endpoints de Ideas (`/api/ideas`)
+
+#### Crear Idea
+
+- **URL**: `/api/ideas`
+- **Método**: POST
+- **Descripción**: Crea una nueva idea en el sistema
+- **Autenticación**: Requiere token JWT
+- **Cuerpo de la solicitud**:
+  ```json
+  {
+    "titulo": "Título de la idea",
+    "descripcion": "Descripción detallada",
+    "categoria": "CATEGORIA",
+    "estado": "ESTADO"
+  }
+  ```
+
+#### Obtener Todas las Ideas
+
+- **URL**: `/api/ideas`
+- **Método**: GET
+- **Descripción**: Obtiene la lista de todas las ideas
+- **Autenticación**: No requiere token
+
+#### Obtener Ideas por Creador
+
+- **URL**: `/api/ideas/creator/{creatorId}`
+- **Método**: GET
+- **Descripción**: Obtiene todas las ideas creadas por un usuario específico
+- **Parámetros**:
+  - `creatorId`: ID del creador
+- **Autenticación**: No requiere token
+
+#### Obtener Idea por ID
+
+- **URL**: `/api/ideas/{ideaId}`
+- **Método**: GET
+- **Descripción**: Obtiene los detalles de una idea específica
+- **Parámetros**:
+  - `ideaId`: ID de la idea
+- **Autenticación**: No requiere token
+
+#### Mostrar Interés en una Idea
+
+- **URL**: `/api/ideas/{ideaId}/interest`
+- **Método**: POST
+- **Descripción**: Registra el interés de un usuario en una idea específica
+- **Parámetros**:
+  - `ideaId`: ID de la idea
+- **Autenticación**: Requiere token JWT
+
+#### Obtener Ideas por Categoría
+
+- **URL**: `/api/ideas/category/{category}`
+- **Método**: GET
+- **Descripción**: Obtiene todas las ideas de una categoría específica
+- **Parámetros**:
+  - `category`: Categoría de las ideas
+- **Autenticación**: No requiere token
+
+#### Obtener Ideas por Estado
+
+- **URL**: `/api/ideas/status/{status}`
+- **Método**: GET
+- **Descripción**: Obtiene todas las ideas con un estado específico
+- **Parámetros**:
+  - `status`: Estado de las ideas
+- **Autenticación**: No requiere token
+
+### Notas sobre Autenticación
+
+- Los endpoints que requieren autenticación necesitan incluir el token JWT en el encabezado de la solicitud:
+  ```
+  Authorization: Bearer <token>
+  ```
+- Los endpoints públicos no requieren token de autenticación
+- Las respuestas de error incluirán un mensaje descriptivo en español
+- Todas las solicitudes y respuestas utilizan el formato JSON
 
 ## Requisitos del Sistema
 
